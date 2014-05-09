@@ -1,0 +1,119 @@
+//  SCRIPT SUPPORTS SERVER
+//  -   RATHENA , HERCULES
+//  SCRIPT NPC
+//  -   HEAL
+//  FUNCTION SCRIPT
+//  -   SET PRICE
+//  -   SET DELAY
+//  -   SET REPAIR
+//  -   SET BUFF
+//	CR. TRANSLATOR
+//	-	SYNCHRONIZE COEXIST FREESTYLES
+//	-	CMZ'
+//	-	-:-'RATHENA'-:-
+//	BUILDING BY.DEVELOPERMENT
+
+-	script	Healer	-1,{
+
+	if (@pdelay > gettimetick(2)) {
+		message strcharinfo(0), "You must wait "+ (@pdelay - gettimetick(2)) +" seconds.";
+		end;
+	}
+
+	if (.price) {
+		if (Zeny < .price) {
+			message strcharinfo(0), "You do not have enough Zeny. It costs "+ .price +" zeny for a heal.";
+			end;
+		}
+		
+		Zeny -= .price;
+	}
+
+	specialeffect2 EF_HEAL; percentheal .hp, .sp;
+
+	if (.buff) {
+		// Acolyte Class Buffs
+		specialeffect2 EF_BLESSING; sc_start SC_BLESSING, 360000, 10;
+		specialeffect2 EF_INCAGILITY; sc_start SC_INC_AGI, 360000, 10;
+		//specialeffect2 EF_ANGELUS; sc_start SC_ANGELUS, 360000, 10;
+		//specialeffect2 EF_GLORIA; sc_start SC_GLORIA, 360000, 5;
+		//specialeffect2 EF_MAGNIFICAT; sc_start SC_MAGNIFICAT, 360000, 5;
+		//specialeffect2 EF_ASSUMPTIO; sc_start SC_ASSUMPTIO, 360000, 5;
+		//specialeffect2 EF_IMPOSITIO; sc_start SC_IMPOSITIO, 360000, 5;
+		//specialeffect2 EF_SUFFRAGIUM; sc_start SC_SUFFRAGIUM, 360000, 3;
+
+		// Archer Class Buffs
+		//specialeffect2 EF_TRUESIGHT; sc_start SC_TRUESIGHT, 360000, 5;
+		//specialeffect2 EF_PORTAL4; sc_start SC_WINDWALK, 360000, 5;
+		//specialeffect2 EF_CONCENTRATION; sc_start SC_CONCENTRATION, 360000, 5;
+
+		// Merchant Class Buffs
+		//specialeffect2 EF_PERFECTION; sc_start 44, 360000, 5;
+		//specialeffect2 EF_OVERTHRUST; sc_start SC_OVERTHRUST, 360000, 5;
+		//specialeffect2 EF_MAXPOWER; sc_start SC_MAXIMIZEPOWER, 360000, 5;
+		//specialeffect2 EF_MELTDOWN; sc_start SC_MELTDOWN, 360000, 5;
+		//specialeffect2 EF_LOUD; sc_start SC_LOUD, 360000, 1;
+
+		// Swordman Class Buffs
+		//specialeffect2 EF_ENDURE; sc_start SC_ENDURE, 360000, 10;
+
+		// Mage Class Buffs
+		//specialeffect2 EF_ENERGYCOAT; sc_start SC_ENERGYCOAT, 360000, 1;
+		
+		// Bard Class Buffs
+		
+		// Dance Class Buffs
+
+		// FOOD Buffs
+		sc_start SC_FOOD_STR,1800000,10;
+		sc_start SC_FOOD_AGI,1800000,10;
+		sc_start SC_FOOD_VIT,1800000,10;
+		sc_start SC_FOOD_INT,1800000,10;
+		sc_start SC_FOOD_DEX,1800000,10;
+		sc_start SC_FOOD_LUK,1800000,10;
+		
+		// End 
+		sc_end SC_POISON;
+		sc_end SC_FREEZE;
+		sc_end SC_SLEEP;
+		sc_end SC_STUB;
+		sc_end SC_ORCISH;
+		sc_end SC_STONE;
+		sc_end SC_SILENCE;
+		sc_end SC_BLIND;
+		sc_end SC_BLEEDING;
+		sc_end SC_CONFUSION;
+		sc_end SC_CURSE;
+		sc_end SC_HALLUCINATION;
+		sc_end SC_DPOISON;
+	}
+
+	if (.repair) {
+		repairall;
+	}
+
+	if (.delay) {
+		@pdelay = gettimetick(2)+.delay;
+	}
+
+	end;
+
+	OnInit:
+		// Configuration
+		.hp = 100;		// Percent of HP to heal
+		.sp = 100;		// Percent of SP to heal
+
+		// Addons
+		.price = 1000; 	// Price per use, in Zeny
+		.buff = 1;		// Buff players as well? (0: no, 1: yes)
+		.repair = 1;	// Repair broken equipment? (0: no, 1: yes)
+		.delay = 0;		// Delay per use, in seconds
+
+		end;
+}
+
+// SET POSITION NPC
+
+tms_town,155,130,4	duplicate(Healer)	Heal#Morocc	4_DEVIRUCHI
+
+// END
